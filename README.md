@@ -1,31 +1,39 @@
 
-## A producer kafka using TDD 
+<img src="https://storage.googleapis.com/golden-wind/experts-club/capa-github.svg" />
 
+# Kafka4Devs - Segurança no Kafka com SSL
+Você sabe o que acontece por debaixo dos panos de uma aplicação segura? Sabe como empresas grandes que utilizam Kafka em produção enviam e recebem suas mensagens? 
+Se sua resposta for duvidosa para essas perguntas sugiro que assista essa aula. Nela você vai entender conceitos de segurança e criptografia e aplicar num broker do kafka dentro de um projeto producer.
+ 
 
-### The requirements of these systems are:
-
-* Send a notification every time a book store book is exchanged
-
-* Notifications are produced with Kafka default (key, value)
-
-* The sending of this message must be triggered and for the time being it is consumed in a local kafka cluster
-
-### Sending a message
-
-> Tip: import these commands on Postman make your life easy
+## Comandos utilizados na aula
 
 ```
-curl -i \
--d '{"bookStoreEventId":null,"book":{"bookId":456,"bookName":"Effective Java","bookAuthor":"Joshua Bloch"}}' \
--H "Content-Type: application/json" \
--X POST http://localhost:8080/v1/bookstore-event
+keytool -keystore server.keystore.jks -alias localhost -validity 365 -genkey -keyalg RSA
 ```
 
 ```
-curl -i \
--d '{"bookStoreEventId":1,"book":{"bookId":456,"bookName":"Effective Java","bookAuthor":"Joshua Bloch"}}' \
--H "Content-Type: application/json" \
--X POST http://localhost:8080/v1/bookstore-event
+openssl req -new -x509 -keyout ca-key -out ca-cert -days 365 -subj "/CN=local-security-CA"
 ```
 
-# kafka4devs-securuty-kafka-ssl-2022-02-23
+```
+keytool -keystore server.keystore.jks -alias localhost -certreq -file cert-file
+```
+
+```
+openssl x509 -req -CA ca-cert -CAkey ca-key -in cert-file -out cert-signed -days 365 -CAcreateserial -passin pass:
+```
+
+```
+keytool -keystore server.keystore.jks -alias CARoot -import -file ca-cert
+```
+
+```
+keytool -keystore client.truststore.jks -alias CARoot -import -file ca-cert
+```
+
+## Expert
+| [<img src="https://avatars.githubusercontent.com/u/42419543?v=4" width="75px;"/>](https://github.com/anabneri) |
+| :-: |
+|[Ana Neri](https://github.com/anabneri)|
+
