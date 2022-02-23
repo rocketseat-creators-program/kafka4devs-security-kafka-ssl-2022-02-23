@@ -32,6 +32,14 @@ keytool -keystore server.keystore.jks -alias CARoot -import -file ca-cert
 keytool -keystore client.truststore.jks -alias CARoot -import -file ca-cert
 ```
 
+## Slides
+
+https://docs.google.com/presentation/d/15Q6GXLrttXbVXrMpoVjYro7BFkJfPViQOXV42tbI_sA/edit?usp=sharing
+
+## Documentação do Apache Kafka Security
+
+https://kafka.apache.org/documentation/#security
+
 ## Expert
 | [<img src="https://avatars.githubusercontent.com/u/42419543?v=4" width="75px;"/>](https://github.com/anabneri) |
 | :-: |
